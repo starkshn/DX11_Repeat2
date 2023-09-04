@@ -5,7 +5,11 @@
       <FullPath>D:\DirecX11\DX11_Projects\GameCoding_Repeat_2\DX11\Binaries\GameCoding_Repeat2.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
-  <ContentFiles />
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>D:\DirecX11\DX11_Projects\GameCoding_Repeat_2\DX11\Binaries\Default.cso</FullPath>
+    </ContentFile>
+  </ContentFiles>
   <SatelliteDlls />
   <NonRecipeFileRefs />
 </Project>

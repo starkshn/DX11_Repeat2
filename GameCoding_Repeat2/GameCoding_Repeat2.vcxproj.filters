@@ -22,6 +22,9 @@
     <Filter Include="소스 파일\99.Headers\Andromeda">
       <UniqueIdentifier>{c20149b6-b8dd-451b-ac03-8ff67a989860}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\98.Shaders">
+      <UniqueIdentifier>{71178241-94c7-4204-8ad0-04ef183855ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -75,5 +78,10 @@
     <Image Include="GameCoding_Repeat2.ico">
       <Filter>리소스 파일</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Default.hlsl">
+      <Filter>소스 파일\98.Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

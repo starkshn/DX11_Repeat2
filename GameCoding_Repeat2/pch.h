@@ -9,6 +9,7 @@
 #include <list>
 #include <map>
 #include <unordered_map>
+#include <string>
 using namespace std;
 
 // WIN API
@@ -37,3 +38,4 @@ using namespace Microsoft::WRL;
 #endif
 
 #define C(p) assert(SUCCEEDED(p))
+#define Z(p, s) ZeroMemory(p, s)
