@@ -35,3 +35,5 @@ using namespace Microsoft::WRL;
 #else
 #pragma comment(lib, "DirectXTex\\DirectXTex.lib")
 #endif
+
+#define C(p) assert(SUCCEEDED(p))
