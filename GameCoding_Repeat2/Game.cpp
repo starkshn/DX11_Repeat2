@@ -16,6 +16,9 @@ void Game::Init(HWND hWnd)
 	_height = GWinSizeY;
 
 	CreateDeviceAndSwapChain();
+
+	CreateRenderTargetView();
+	SetViewPort();
 }
 
 void Game::Update()
@@ -24,6 +27,23 @@ void Game::Update()
 
 void Game::Render()
 {
+	RenderBegin();
+
+
+	RenderEnd();
+}
+
+void Game::RenderBegin()
+{
+	_deviceContext->OMSetRenderTargets(1, _renderTargetView.GetAddressOf(), nullptr);
+	_deviceContext->ClearRenderTargetView(_renderTargetView.Get(), _clearColor);
+	_deviceContext->RSSetViewports(1, &_viewport);
+}
+
+void Game::RenderEnd()
+{
+	HRESULT hr = _swapChain->Present(1, 0); // 제출한다.
+	C(hr);
 }
 
 void Game::CreateDeviceAndSwapChain()
@@ -62,4 +82,30 @@ void Game::CreateDeviceAndSwapChain()
 	);
 
 	C(hr);
+}
+
+void Game::CreateRenderTargetView()
+{
+	HRESULT hr;
+	
+	ComPtr<ID3D11Texture2D> backBuffer = nullptr;
+	hr = _swapChain->GetBuffer
+	(
+		0, __uuidof(ID3D11Texture2D),
+		(void**)backBuffer.GetAddressOf()
+	);
+	C(hr);
+
+	hr = _device->CreateRenderTargetView(backBuffer.Get(), nullptr, _renderTargetView.GetAddressOf());
+	C(hr);
+}
+
+void Game::SetViewPort()
+{
+	_viewport.TopLeftX = 0.f;
+	_viewport.TopLeftY = 0.f;
+	_viewport.Width = static_cast<float>(_width);
+	_viewport.Height = static_cast<float>(_height);
+	_viewport.MinDepth = 0.f;
+	_viewport.MaxDepth = 1.f;
 }
