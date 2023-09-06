@@ -29,6 +29,9 @@ private:
 private:
 	void CreateSRV();
 
+private:
+	void CreateConstantBuffer();
+
 	void LoadShaderFromFile(const wstring& path, const string& name, const string& version, ComPtr<ID3DBlob>& blob);
 
 
@@ -65,4 +68,9 @@ private:
 	ComPtr<ID3D11ShaderResourceView> _shaderResouceView	= nullptr;
 	ComPtr<ID3D11Buffer>			 _indexBuffer		= nullptr;
 	vector<uint32>					 _indices;
+
+private:
+	ComPtr<ID3D11Buffer>			_constantBuffer = nullptr;
+	TransformData					_transformData;
+	
 };
