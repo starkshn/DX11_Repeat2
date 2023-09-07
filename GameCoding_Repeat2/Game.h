@@ -32,6 +32,11 @@ private:
 private:
 	void CreateConstantBuffer();
 
+private:
+	void CreateRasterizerState();
+	void CreateSamplerState();
+	void CreateBlendState();
+
 	void LoadShaderFromFile(const wstring& path, const string& name, const string& version, ComPtr<ID3DBlob>& blob);
 
 
@@ -72,5 +77,14 @@ private:
 private:
 	ComPtr<ID3D11Buffer>			_constantBuffer = nullptr;
 	TransformData					_transformData;
+
+private:
+	ComPtr<ID3D11RasterizerState>	_rasterizerState = nullptr;
+	ComPtr<ID3D11SamplerState>		_samplerState	= nullptr;
+	ComPtr<ID3D11BlendState>		_blendState		= nullptr;
 	
+private:
+	Vec3 _localPosition = { 0.f, 0.f, 0.f };
+	Vec3 _localRotation = { 0.f, 0.f, 0.f };
+	Vec3 _localScale	= {1.f, 1.f, 1.f};
 };

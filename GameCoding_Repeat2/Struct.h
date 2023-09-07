@@ -9,6 +9,7 @@ struct Vertex
 
 struct TransformData
 {
-	Vec3 offset;
-	float dummy; // 16byte정렬 하기위한 맞추기 위한 쓰레기 값
+	Matrix matWorld			= Matrix::Identity;
+	Matrix matView			= Matrix::Identity;
+	Matrix matProjection	= Matrix::Identity;
 };

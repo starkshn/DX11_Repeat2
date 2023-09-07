@@ -54,6 +54,9 @@
     <ClInclude Include="Game.h">
       <Filter>소스 파일\01.Main</Filter>
     </ClInclude>
+    <ClInclude Include="SimpleMath.h">
+      <Filter>소스 파일\99.Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -63,6 +66,9 @@
       <Filter>소스 파일\01.Main</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
+      <Filter>소스 파일\01.Main</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleMath.cpp">
       <Filter>소스 파일\01.Main</Filter>
     </ClCompile>
   </ItemGroup>
@@ -83,5 +89,10 @@
     <FxCompile Include="Default.hlsl">
       <Filter>소스 파일\98.Shaders</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SimpleMath.inl">
+      <Filter>소스 파일\01.Main</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -28,12 +28,25 @@ void Game::Init(HWND hWnd)
 	CreateSRV();
 
 	CreateConstantBuffer();
+
+	CreateRasterizerState();
+	CreateSamplerState();
+	CreateBlendState();
 }
 
 void Game::Update()
 {
-	_transformData.offset.x += 0.003f;
-	_transformData.offset.y += 0.003f;
+	_localPosition.x += 0.001f;
+	
+	// SRT
+	Matrix matScale = Matrix::CreateScale(_localScale / 1);
+	Matrix matRotation = Matrix::CreateRotationX(_localRotation.x);
+	matRotation *= Matrix::CreateRotationY(_localRotation.y);
+	matRotation *= Matrix::CreateRotationZ(_localRotation.z);
+	Matrix matTranslation = Matrix::CreateTranslation(_localPosition);
+
+	Matrix matWorld = matScale * matRotation * matTranslation;
+	_transformData.matWorld = matWorld;
 
 	D3D11_MAPPED_SUBRESOURCE subResouce;
 	Z(&subResouce, sizeof(subResouce));
@@ -274,6 +287,60 @@ void Game::CreateConstantBuffer()
 	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
 	HRESULT hr = _device->CreateBuffer(&desc, nullptr, _constantBuffer.GetAddressOf());
+	C(hr);
+}
+
+void Game::CreateRasterizerState()
+{
+	D3D11_RASTERIZER_DESC desc;
+	Z(&desc, sizeof(desc));
+
+	desc.FillMode = D3D11_FILL_SOLID;	// 기본모드 (중요)
+	desc.CullMode = D3D11_CULL_BACK;	// 기본모드 (중요) 뒤는 그리지 않겠다
+	desc.FrontCounterClockwise = false;	// 기본모드 (중요) 시계 방향
+
+	H hr = _device->CreateRasterizerState(&desc, _rasterizerState.GetAddressOf());
+	C(hr);
+}
+
+void Game::CreateSamplerState()
+{
+	D3D11_SAMPLER_DESC desc;
+	Z(&desc, sizeof(desc));
+	desc.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
+	desc.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;
+	desc.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
+	desc.BorderColor[0] = 1;
+	desc.BorderColor[1] = 0;
+	desc.BorderColor[2] = 0;
+	desc.BorderColor[3] = 1;
+	desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	desc.MaxAnisotropy = 16;
+	desc.MaxLOD = FLT_MAX;
+	desc.MinLOD = FLT_MIN;
+	desc.MipLODBias = 0.0f;
+
+	_device->CreateSamplerState(&desc, _samplerState.GetAddressOf());
+}
+
+void Game::CreateBlendState()
+{
+	D3D11_BLEND_DESC desc;
+	Z(&desc, sizeof(desc));
+	desc.AlphaToCoverageEnable = false;
+	desc.IndependentBlendEnable = false;
+
+	desc.RenderTarget[0].BlendEnable = true;
+	desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC1_ALPHA;
+	desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	H hr = _device->CreateBlendState(&desc, _blendState.GetAddressOf());
 	C(hr);
 }
 
